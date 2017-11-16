@@ -8,11 +8,12 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+//https://technologyconversations.com/2014/04/23/java-tutorial-through-katas-tennis-game-easy/
 
 public class GameTest {
-    Player victor;
-    Player sarah;
-    Game game;
+    private Player victor;
+    private Player sarah;
+    private Game game;
 
     @Before
     public void beforeTestTennis() {
@@ -33,7 +34,6 @@ public class GameTest {
         assertThat(game, hasProperty("score", is("love, fifteen")));
     }
 
-
     @Test
     public void thirtyShouldBeDescriptionForScore2() {
         victor.winBall();
@@ -44,31 +44,21 @@ public class GameTest {
 
     @Test
     public void fortyShouldBeDescriptionForScore3() {
-        IntStream.rangeClosed(1, 3).forEach((Integer) -> {
-            victor.winBall();
-        });
+        IntStream.rangeClosed(1, 3).forEach((Integer) -> victor.winBall());
         assertThat(game, hasProperty("score", is("forty, love")));
     }
 
     @Test
     public void advantageShouldBeDescriptionWhenLeastThreePointsHaveBeenScoredByEachSideAndPlayerHasOnePointMoreThanHisOpponent() {
-        IntStream.rangeClosed(1, 3).forEach((Integer) -> {
-            victor.winBall();
-        });
-        IntStream.rangeClosed(1, 4).forEach((Integer) -> {
-            sarah.winBall();
-        });
+        IntStream.rangeClosed(1, 3).forEach((Integer) -> victor.winBall());
+        IntStream.rangeClosed(1, 4).forEach((Integer) -> sarah.winBall());
         assertThat(game, hasProperty("score", is("advantage Sarah")));
     }
 
     @Test
     public void deuceShouldBeDescriptionWhenAtLeastThreePointsHaveBeenScoredByEachPlayerAndTheScoresAreEqual() {
-        for (int index = 1; index <= 3; index++) {
-            victor.winBall();
-        }
-        for (int index = 1; index <= 3; index++) {
-            sarah.winBall();
-        }
+        IntStream.rangeClosed(1, 3).forEach((Integer) -> victor.winBall());
+        IntStream.rangeClosed(1, 3).forEach((Integer) ->  sarah.winBall());
         assertThat(game, hasProperty("score", is("deuce")));
         victor.winBall();
         assertThat(game, hasProperty("score", is(not("deuce"))));
@@ -78,12 +68,8 @@ public class GameTest {
 
     @Test
     public void gameShouldBeWonByTheFirstPlayerToHaveWonAtLeastFourPointsInTotalAndWithAtLeastTwoPointsMoreThanTheOpponent() {
-        for (int index = 1; index <= 4; index++) {
-            victor.winBall();
-        }
-        for (int index = 1; index <= 3; index++) {
-            sarah.winBall();
-        }
+        IntStream.rangeClosed(1, 4).forEach((Integer) -> victor.winBall());
+        IntStream.rangeClosed(1, 3).forEach((Integer) -> sarah.winBall());
         assertThat(game, hasProperty("score", is(not("Victor won"))));
         assertThat(game, hasProperty("score", is(not("Sarah won"))));
         victor.winBall();

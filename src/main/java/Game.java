@@ -2,13 +2,9 @@ public class Game {
 
     private Player playerOne;
     private Player playerTwo;
-    private static final String[] scoreWords = {"love", "fifteen", "thirty", "forty"};
-    private static final String[] scoreTiedWords = {"deuce", "advantage", "won"};
-    private int tiedScore = 0;
-    private int absoluteTiedScore = 0;
-    private static final int DEUCE = 0;
     private static final int ADVANTAGE = 1;
-    private static final int FORTY_POINTS = 3;
+    private int playerOneScore;
+    private int playerTwoScore;
 
 
     public Game(Player playerOne, Player playerTwo) {
@@ -17,31 +13,22 @@ public class Game {
     }
 
     public String getScore() {
-        int playerOneScore = playerOne.getScore();
-        int playerTwoScore = playerTwo.getScore();
+        playerOneScore = playerOne.getScore();
+        playerTwoScore = playerTwo.getScore();
 
-        if (playerOneScore >= FORTY_POINTS && playerTwoScore >= FORTY_POINTS) {
-            setTieBreakScore(playerOneScore, playerTwoScore);
-            return getTieBreakScore();
+        if (playerOne.hasPlayerReachedFortyPoints() && playerTwo.hasPlayerReachedFortyPoints()) {
+            return (playerOneScore == playerTwoScore) ? "deuce" : getGameStatus();
         }
-        return scoreWords[playerOneScore] + ", " + scoreWords[playerTwoScore];
+        return playerOne.getScoreWord() + ", " + playerTwo.getScoreWord();
     }
 
-    private void setTieBreakScore(int playerOneScore, int playerTwoScore) {
-        tiedScore = playerOneScore - playerTwoScore;
-        absoluteTiedScore = Math.abs(tiedScore);
-    }
-
-    private String getTieBreakScore() {
-        if (tiedScore == DEUCE) return scoreTiedWords[tiedScore];
-
+    private String getGameStatus() {
         String nameOfPlayerAhead = getNameOfPlayerAhead();
-        if (absoluteTiedScore == ADVANTAGE) return scoreTiedWords[absoluteTiedScore] + " " + nameOfPlayerAhead;
-        else return nameOfPlayerAhead + " " + scoreTiedWords[absoluteTiedScore];
+        return (Math.abs(playerOneScore - playerTwoScore) == ADVANTAGE) ?
+                ("advantage " + nameOfPlayerAhead) : (nameOfPlayerAhead + " won");
     }
 
     private String getNameOfPlayerAhead() {
-        if (tiedScore > 0) return playerOne.getPlayerName();
-        else return playerTwo.getPlayerName();
+        return (playerOneScore > playerTwoScore) ? playerOne.getPlayerName() : playerTwo.getPlayerName();
     }
 }
