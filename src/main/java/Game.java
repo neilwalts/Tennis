@@ -17,12 +17,12 @@ public class Game {
         playerTwoScore = playerTwo.getScore();
 
         if (playerOne.hasPlayerReachedFortyPoints() && playerTwo.hasPlayerReachedFortyPoints()) {
-            return (playerOneScore == playerTwoScore) ? "deuce" : getGameStatus();
+            return (playerOneScore == playerTwoScore) ? "deuce" : getTieBreakStatus();
         }
         return playerOne.getScoreWord() + ", " + playerTwo.getScoreWord();
     }
 
-    private String getGameStatus() {
+    private String getTieBreakStatus() {
         String nameOfPlayerAhead = getNameOfPlayerAhead();
         return (Math.abs(playerOneScore - playerTwoScore) == ADVANTAGE) ?
                 ("advantage " + nameOfPlayerAhead) : (nameOfPlayerAhead + " won");
